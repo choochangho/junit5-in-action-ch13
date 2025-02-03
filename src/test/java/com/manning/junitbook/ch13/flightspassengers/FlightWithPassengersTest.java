@@ -13,18 +13,34 @@ public class FlightWithPassengersTest {
     private Flight flight = new Flight("AA123", 1);
 
     @Test
+    public void testPassengerJoinsFlight() {
+        // 승객을 생성하고
+        Passenger passenger = new Passenger("123-45-6789", "John Smith", "US");
+        // 항공편을 생성한다.
+        Flight flight = new Flight("AA123", 100);
+        // 승객관점에서 항공편을 추가한다.
+        passenger.joinFlight(flight);
+        // 승객의 항공편이 앞서 정의한 항공편인지 검증
+        assertEquals(flight, passenger.getFlight());
+        // 해당 항공편의 승객수가 현재 한 명인지 검증한다.
+        assertEquals(1, flight.getNumberOfPassengers());
+    }
+
+    @Test
     public void testAddRemovePassengers() throws IOException {
         // 2. 승객 객체를 생성
         Passenger passenger = new Passenger("124-56-7890", "Michael Johnson", "US");
 
-        // 3. 승객을 추가
-        assertTrue(flight.addPassenger(passenger));
+        // 항공편에 승객을 추가
+        flight.addPassenger(passenger);
         assertEquals(1, flight.getNumberOfPassengers());
+        // 승객관점에서 항공편이 추가되었는지 검증한다.
         assertEquals(flight, passenger.getFlight());
 
-        // 4. 승객을 삭제
-        assertTrue(flight.removePassenger(passenger));
+        // 항공편에서 승객을 삭제
+        flight.removePassenger(passenger);
         assertEquals(0, flight.getNumberOfPassengers());
+        // 승객관점에서 항공편이 삭제되었는지 검증한다.
         assertEquals(null, passenger.getFlight());
     }
 

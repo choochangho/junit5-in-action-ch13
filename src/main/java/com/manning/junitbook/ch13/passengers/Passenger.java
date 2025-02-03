@@ -44,6 +44,27 @@ public class Passenger {
         return flight;
     }
 
+    public void joinFlight(Flight flight) {
+        // 승객의 이전 항공편 정보를 가져온 다음
+        // 이전 항공편 정보가 존재한다면 이전 항공편에서 승객을 삭제한다.
+        // 삭제가 실패한다면 예외를 던진다.
+        Flight previousFlight = this.flight;
+        if(null != previousFlight) {
+            if(!previousFlight.removePassenger(this)) {
+                throw new RuntimeException("승객을 삭제할 수 없습니다.");
+            }
+        }
+        // 세터 메서드로 승객 객체에 항공편 정보를 설정한다.
+        setFlight(flight);
+        // 항공편 정보가 null이 아니면 항공편에도 승객 정보를 추가한다.
+        // 승객 정보가 성공적으로 추가되지 않는다면 예외를 던진다.
+        if(null != flight) {
+            if(!flight.addPassenger(this)) {
+                throw new RuntimeException("승객을 추가할 수 없습니다.");
+            }
+        }
+    }
+
     // 승객 정보를 나타낼 수 있도록 toString 메서드를 재정의한다.
     @Override
     public String toString() {
